@@ -1,0 +1,27 @@
+
+services:
+  strapi:
+    build: ./backend
+    container_name: strapi
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/srv/app
+    ports:
+      - '1337:1337'
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - '3000:3000'
+    depends_on:
+      - strapi
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
